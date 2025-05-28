@@ -10,4 +10,4 @@ COPY . .
 RUN python manage.py migrate --noinput
 RUN python manage.py collectstatic --noinput
 
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "mycity.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "$PORT", "mycity.asgi:application", "--log-level", "debug"]
