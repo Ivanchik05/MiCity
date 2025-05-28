@@ -43,6 +43,7 @@ services:
   - type: redis
     name: mycity-redis
     plan: free
+    ipAllowList: ["0.0.0.0/0"] # Allow all IPs for testing
 
 databases:
   - name: mycity-db
