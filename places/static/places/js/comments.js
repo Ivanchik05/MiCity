@@ -2,13 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('comments.js loaded');
 
     function getCsrfToken() {
-        const token = document.querySelector('[name=csrfmiddlewaretoken]');
-        if (!token) {
-            console.error('CSRF token not found');
-            return null;
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
-        return token.value;
     }
+    if (!cookieValue) {
+        console.error('CSRF token not found in cookies');
+        return null;
+    }
+    return cookieValue;
+}
 
     // Устанавливаем WebSocket-соединение с динамическим хостом
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';

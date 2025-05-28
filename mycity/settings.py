@@ -87,5 +87,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+CSRF_COOKIE_SECURE = True  # Для HTTPS на Render
+CSRF_COOKIE_HTTPONLY = False  # Чтобы JavaScript мог читать куки
+CSRF_TRUSTED_ORIGINS = ['https://mycity-web.onrender.com']  # Ваш домен Render
+SESSION_COOKIE_SECURE = True  # Для HTTPS
+SESSION_COOKIE_HTTPONLY = True
+
 LOGIN_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
