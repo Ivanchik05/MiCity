@@ -9,6 +9,7 @@ COPY . .
 
 EXPOSE 8000 8001
 
+RUN python manage.py migrate --noinput
 RUN python manage.py collectstatic --noinput
 
 CMD ["gunicorn", "mycity.wsgi:application", "--bind", "0.0.0.0:8000"]
