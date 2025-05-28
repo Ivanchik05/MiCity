@@ -41,11 +41,9 @@ services:
         sync: false
 
   - type: redis
-    name: mycity-redis
+    name: mycity-redis  
     plan: free
-    ip_allow_list: # Добавляем список разрешённых IP
-      - source: mycity-web
-      - source: mycity-daphne
+    ip_allow_list: ["0.0.0.0/0"] # Временное решение для тестирования
 
 databases:
   - name: mycity-db
