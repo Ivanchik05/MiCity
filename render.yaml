@@ -43,6 +43,9 @@ services:
   - type: redis
     name: mycity-redis
     plan: free
+    ip_allow_list: # Добавляем список разрешённых IP
+      - source: mycity-web
+      - source: mycity-daphne
 
 databases:
   - name: mycity-db
