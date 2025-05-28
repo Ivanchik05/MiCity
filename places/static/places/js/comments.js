@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return token.value;
     }
 
-    // Устанавливаем WebSocket-соединение
-    const ws = new WebSocket('ws://localhost:8001/ws/posts/');
+    // Устанавливаем WebSocket-соединение с динамическим хостом
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${protocol}//${window.location.host}/ws/posts/`);
     ws.onopen = () => console.log('WebSocket connected');
     ws.onerror = (error) => console.error('WebSocket error:', error);
     ws.onclose = (event) => console.log('WebSocket closed:', event);
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrfToken,
                     },
-                    credentials: 'include', // Убедимся, что куки (включая сессию) отправляются
+                    credentials: 'include',
                     body: JSON.stringify({ post_id: postId, is_like: isLike })
                 });
 
@@ -80,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error(data.error || 'Server responded with an error');
                 }
 
-                // Немедленное обновление интерфейса
                 const postDiv = document.querySelector(`.post[data-post-id="${postId}"]`);
                 if (postDiv) {
                     const likeCount = postDiv.querySelector('.like-count');
