@@ -93,13 +93,14 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get("DB_NAME", "mydb"),
-        'USER': os.environ.get("DB_USER", "myuser"),
-        'PASSWORD': os.environ.get("DB_PASSWORD", "mypassword"),
-        'HOST': 'db',  # имя сервиса в docker-compose.yml
-        'PORT': '5432',
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),  # например, dpg-xxxxx.render.com
+        'PORT': os.environ.get("DB_PORT", "5432"),
     }
 }
+
 
 
 # Password validation
