@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Спасибо за обратную связь{% endblock %}
+
+{% block header %}
+Спасибо за ваше сообщение!
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 40px;">
+    <img src="{% static 'places/images/thank_you.png' %}" alt="Спасибо" style="width: 300px; margin-bottom: 20px;">
+    <h2>Мы получили ваше сообщение</h2>
+    <p>Спасибо, что связались с нами! Мы ответим вам в ближайшее время.</p>
+    <p>
+        <br>
+        <a href="{% url 'index' %}" class="submit-button" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+            Вернуться на главную страницу
+        </a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'places/css/styles.css' %}">
+{% endblock %}
+{% block header %}Авторизация{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h2 style="text-align: center; font-family: 'Monomakh', serif; font-size: 30px; font-weight: bold;">Войдите в свою учетную запись</h2>
+
+    <!-- Общее сообщение об ошибке -->
+    {% if errors %}
+        <p style="color: red; text-align: center; font-weight: bold; margin-bottom: 20px;">Пожалуйста, исправьте ошибки в форме.</p>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="POST" style="max-width: 400px; margin: 0 auto;">
+        {% csrf_token %}
+        <div>
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" value="{{ form_data.username|default_if_none:'' }}" required />
+            {% if errors.username %}
+                <p style="color: red; font-size: 14px;">{{ errors.username }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required />
+            {% if errors.password %}
+                <p style="color: red; font-size: 14px;">{{ errors.password }}</p>
+            {% endif %}
+        </div>
+        {% if errors.general %}
+            <p style="color: red; text-align: center; font-size: 14px;">{{ errors.general }}</p>
+        {% endif %}
+        <button type="submit" class="login-btn">Войти</button>
+    </form>
+</div>
+{% endblock %}

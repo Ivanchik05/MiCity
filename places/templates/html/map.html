@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Карта города{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'places/css/map.css' %}">
+{% endblock %}
+{% block header %}Карта города{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <p style="text-align: center; font-family: 'Monomakh', serif;font-size: 30px;font-weight: bold;">Ниже представлена карта моего города.</p>
+    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7931268b58ff462caaf4bcc7c7f7f66c837411726e3e8131154d4304478cefba&amp;source=constructor"
+            frameborder="0"></iframe>
+</div>
+{% endblock %}

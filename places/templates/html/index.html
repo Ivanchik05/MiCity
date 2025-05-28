@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'places/css/index.css' %}">
+{% endblock %}
+{% block header %}ЛЕБЕДЯНЬ{% endblock %}
+
+{% block content %}
+<!-- Навигация по странице -->
+<nav class="page-navigation">
+    <ul>
+        <li><a href="#history">📜 История города</a></li>
+        <li><a href="#17century">🏰 XVII-XVIII века</a></li>
+        <li><a href="#19century">🐎 XIX век</a></li>
+        <li><a href="#soviet">🛠️ Советский период</a></li>
+    </ul>
+</nav>
+
+<!-- Контейнер с блоками -->
+<div class="content-container">
+    <p style="text-align: center;font-family: 'Monomakh', serif;font-size: 30px;">Добро пожаловать на нашу <span style="font-weight: bold;">главная страница</span>!</p>
+
+    <div class="slideshow">
+        <div class="slide fade"><img src="{% static 'places/images/slide_1.jpg' %}" alt="Image 1"></div>
+        <div class="slide fade"><img src="{% static 'places/images/slide_2.jpg' %}" alt="Image 2"></div>
+        <div class="slide fade"><img src="{% static 'places/images/slide_3.jpg' %}" alt="Image 3"></div>
+        <div class="slide fade"><img src="{% static 'places/images/slide_4.jpg' %}" alt="Image 4"></div>
+    </div>
+
+    <!-- Посты -->
+    {% if posts_data %}
+        {% for post_data in posts_data %}
+            <div class="history post" id="{{ post_data.post.section_id }}" data-post-id="{{ post_data.post.id }}">
+                <h2>{{ post_data.post.title }}</h2>
+                <div class="post-content">
+                    {{ post_data.post.content | safe }}
+                </div>
+                <div class="like-dislike">
+                    <button class="like-btn" data-post-id="{{ post_data.post.id }}">👍 Like (<span class="like-count">{{ post_data.likes }}</span>)</button>
+                    <button class="dislike-btn" data-post-id="{{ post_data.post.id }}">👎 Dislike (<span class="dislike-count">{{ post_data.dislikes }}</span>)</button>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: red;">Посты не найдены.</p>
+    {% endif %}
+
+    <!-- Кнопка "Наверх" -->
+    <div class="back-to-top">
+        <a href="#">🔝 Наверх</a>
+    </div>
+</div>
+
+<script src="{% static 'places/js/comments.js' %}" defer></script>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        // Предотвращаем стандартное поведение
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            // Смещение
+            const offset = -250;
+            const topPos = targetElement.getBoundingClientRect().top + window.scrollY + offset;
+
+            window.scrollTo({
+                top: topPos,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

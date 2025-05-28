@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'places/images/logo.ico' %}">
+    {% block link %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'places/css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
+    <style>
+        /* Стиль для красной кнопки "Выйти из аккаунта" */
+        .logout-btn {
+            background-color: #ff0000; /* Красный фон */
+            color: white; /* Белый текст */
+            padding: 10px 20px; /* Отступы */
+            border: none; /* Убираем границу */
+            border-radius: 5px; /* Скругленные углы */
+            text-decoration: none; /* Убираем подчеркивание */
+            display: inline-block; /* Для корректного отображения */
+        }
+        .logout-btn:hover {
+            background-color: #cc0000; /* Темнее при наведении */
+        }
+    </style>
+</head>
+<body>
+<div id="loader" class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<header style="background-color: #00308f;">
+    <h1 style="font-family: 'Monomakh', serif;">{% block header %}Добро пожаловать{% endblock %}</h1>
+
+    <!-- Кнопка для открытия меню -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Меню</button>
+
+    <nav id="mobile-menu">
+        <a href="{% url 'index' %}" class="nav-button">🏠 Главная</a>
+        <a href="{% url 'about' %}" class="nav-button">ℹ️ Обо мне</a>
+        <a href="{% url 'map' %}" class="nav-button">🗺️ Карта города</a>
+        <a href="{% url 'contact' %}" class="nav-button">📞 Контакты</a>
+
+        <!-- Условное отображение кнопок в зависимости от статуса авторизации -->
+        {% if user.is_authenticated %}
+            <!-- Если пользователь авторизован, показываем кнопку "Выйти из аккаунта" -->
+            <a href="{% url 'logout' %}" class="nav-button btn logout-btn">Выйти из аккаунта</a>
+        {% else %}
+            <!-- Если пользователь не авторизован, показываем кнопки "Регистрация" и "Войти" -->
+            <a href="{% url 'register' %}" class="nav-button btn register-btn">Регистрация</a>
+            <a href="{% url 'login' %}" class="nav-button btn login-btn">Войти</a>
+        {% endif %}
+
+        <button class="close-menu" onclick="toggleMenu()">❌ Закрыть меню</button>
+    </nav>
+</header>
+
+<main>
+    {% csrf_token %}
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    <p>© 2025 Мой Сайт. Все права защищены.</p>
+</footer>
+
+<script>
+// Функция для переключения видимости меню
+function toggleMenu() {
+    let menu = document.getElementById("mobile-menu");
+    let button = document.querySelector(".menu-toggle");
+    menu.classList.toggle("active");
+
+    // Скрыть/показать кнопку в зависимости от состояния меню
+    if (menu.classList.contains("active")) {
+        button.style.display = "none"; // Скрыть кнопку
+    } else {
+        button.style.display = "block"; // Показать кнопку
+    }
+}
+
+// Закрываем меню при клике за его пределами
+document.addEventListener("click", function (event) {
+    let menu = document.getElementById("mobile-menu");
+    let button = document.querySelector(".menu-toggle");
+    if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.remove("active");
+        button.style.display = "block"; // Показываем кнопку, если меню закрыто
+    }
+});
+
+// При клике на пункт навигации закрываем меню и скрываем кнопку "Меню" на ПК
+document.querySelectorAll('.nav-button').forEach(function(link) {
+    link.addEventListener('click', function(event) {
+        let menu = document.getElementById("mobile-menu");
+        let button = document.querySelector(".menu-toggle");
+
+        // Закрыть меню
+        menu.classList.remove("active");
+
+        // Скрыть кнопку "Меню" на ПК
+        if (window.innerWidth > 768) {
+            button.style.display = "none"; // Скрыть кнопку на ПК
+        } else {
+            button.style.display = "none"; // Скрыть кнопку на мобильных устройствах
+        }
+    });
+});
+
+// При загрузке страницы скрыть анимацию
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        let loader = document.getElementById("loader");
+        loader.style.display = "none"; // Скрыть анимацию через несколько секунд
+    }, 300); // 2000 миллисекунд (2 секунды)
+});
+</script>
+</body>
+</html>

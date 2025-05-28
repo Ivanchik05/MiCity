@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Контакты{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'places/css/contact.css' %}">
+{% endblock %}
+{% block header %}Контакты{% endblock %}
+
+{% block content %}
+<div style="display: flex;">
+    <div style="flex: 1; padding-right: 20px;">
+        <div class="social-buttons">
+            <a href="https://t.me/Bozvanchik" target="_blank" class="social-button telegram-button">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+                Написать в Telegram
+            </a>
+            <a href="https://vk.com/bozvanov_ivan" target="_blank" class="social-button vk-button">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" alt="VK">
+                Написать в ВК
+            </a>
+        </div>
+
+
+        <div style="flex: 2;">
+            <div class="contact-info">
+                <h2>Наши контактные данные</h2>
+                <p>Адрес: ул. Примерная, д. 1, Москва, Россия</p>
+                <p>Телефон: +7 (123) 456-78-90</p>
+                <p>Email: contact@example.com</p>
+            </div>
+
+            <div class="contact-form">
+                <h3>Форма обратной связи</h3>
+                <form action="{% url 'send_message' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="name">Ваше имя:</label><br>
+                    <input type="text" id="name" name="name" required><br><br>
+
+                    <label for="email">Ваш email:</label><br>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <label for="message">Сообщение:</label><br>
+                    <textarea id="message" name="message" rows="4" required></textarea><br><br>
+
+                    <input type="submit" value="Отправить" class="submit-button">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
