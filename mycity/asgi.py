@@ -7,13 +7,11 @@ django.setup()
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-import places.routing  # теперь можно импортировать, т.к. настройки инициализированы
+import places.routing
 
 application = ProtocolTypeRouter({
-    'http': get_asgi_application(),
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            places.routing.websocket_urlpatterns
-        )
+    "http": get_asgi_application(),
+    "websocket": AuthMiddlewareStack(
+        URLRouter(places.routing.websocket_urlpatterns)
     ),
 })
