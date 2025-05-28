@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return token.value;
     }
 
-    // Устанавливаем WebSocket-соединение с динамическим хостом
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const ws = new WebSocket(`${protocol}//${window.location.host}/ws/posts/`);
     ws.onopen = () => console.log('WebSocket connected');
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Обработчик кликов по кнопкам лайков и дизлайков
     document.querySelectorAll('.like-btn, .dislike-btn').forEach(button => {
         button.addEventListener('click', async (event) => {
             event.preventDefault();
