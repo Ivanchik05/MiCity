@@ -2,24 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('comments.js loaded');
 
     function getCsrfToken() {
-    const name = 'csrftoken';
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
+        if (!cookieValue) {
+            console.error('CSRF token not found in cookies');
+            return null;
+        }
+        return cookieValue;
     }
-    if (!cookieValue) {
-        console.error('CSRF token not found in cookies');
-        return null;
-    }
-    return cookieValue;
-}
 
     // Устанавливаем WebSocket-соединение с динамическим хостом
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Обработчик кликов по кнопкам лайков и дизлайков
-    document.querySelectorAll('.like-btn, .dislike-btn').forEach(button => {
+    document.querySelectorAll('.like-btn:not([disabled]), .dislike-btn:not([disabled])').forEach(button => {
         button.addEventListener('click', async (event) => {
             event.preventDefault();
             const postId = button.dataset.postId;
@@ -91,17 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) {
                     throw new Error(data.error || 'Server responded with an error');
                 }
-
-                const postDiv = document.querySelector(`.post[data-post-id="${postId}"]`);
-                if (postDiv) {
-                    const likeCount = postDiv.querySelector('.like-count');
-                    const dislikeCount = postDiv.querySelector('.dislike-count');
-                    if (likeCount && dislikeCount) {
-                        likeCount.textContent = data.likes;
-                        dislikeCount.textContent = data.dislikes;
-                        console.log(`Updated local counts for post ${postId}: likes=${data.likes}, dislikes=${data.dislikes}`);
-                    }
-                }
+                // Убрано локальное обновление счётчиков, так как WebSocket сделает это автоматически
             } catch (error) {
                 console.error('Like/dislike error:', error);
                 if (error.message.includes('login')) {
