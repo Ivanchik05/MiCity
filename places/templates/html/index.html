@@ -44,7 +44,7 @@
                     {% else %}
                         <button class="like-btn" data-post-id="{{ post_data.post.id }}" disabled>👍 Like (<span class="like-count">{{ post_data.likes }}</span>)</button>
                         <button class="dislike-btn" data-post-id="{{ post_data.post.id }}" disabled>👎 Dislike (<span class="dislike-count">{{ post_data.dislikes }}</span>)</button>
-                        <p style="color: red; font-size: 14px;">Войдите, чтобы ставить лайки и дизлайки.</p>
+                        <p style="color: red;font-size: 25px;font-style: italic;font-weight: bold;margin-top: inherit;">Войдите, чтобы ставить лайки и дизлайки.</p>
                     {% endif %}
                 </div>
             </div>
