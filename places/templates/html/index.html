@@ -38,14 +38,8 @@
                     {{ post_data.post.content | safe }}
                 </div>
                 <div class="like-dislike">
-                    {% if user.is_authenticated %}
-                        <button class="like-btn" data-post-id="{{ post_data.post.id }}">👍 Like (<span class="like-count">{{ post_data.likes }}</span>)</button>
-                        <button class="dislike-btn" data-post-id="{{ post_data.post.id }}">👎 Dislike (<span class="dislike-count">{{ post_data.dislikes }}</span>)</button>
-                    {% else %}
-                        <button class="like-btn" data-post-id="{{ post_data.post.id }}" disabled>👍 Like (<span class="like-count">{{ post_data.likes }}</span>)</button>
-                        <button class="dislike-btn" data-post-id="{{ post_data.post.id }}" disabled>👎 Dislike (<span class="dislike-count">{{ post_data.dislikes }}</span>)</button>
-                        <p style="color: red;font-size: 25px;font-style: italic;font-weight: bold;margin-top: inherit;">Войдите, чтобы ставить лайки и дизлайки.</p>
-                    {% endif %}
+                    <button class="like-btn" data-post-id="{{ post_data.post.id }}">👍 Like (<span class="like-count">{{ post_data.likes }}</span>)</button>
+                    <button class="dislike-btn" data-post-id="{{ post_data.post.id }}">👎 Dislike (<span class="dislike-count">{{ post_data.dislikes }}</span>)</button>
                 </div>
             </div>
         {% endfor %}
